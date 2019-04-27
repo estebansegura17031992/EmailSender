@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EmailSenderDAO;
+using EmailSenderDAO.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,18 +15,17 @@ namespace EmailSender.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Historial()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult GetMails()
         {
-            ViewBag.Message = "Your contact page.";
+            Repository repository = new Repository();
+            List<Mail> mails = new List<Mail>();
+            mails = repository.GetMails();
 
-            return View();
+            return Json(mails, JsonRequestBehavior.AllowGet);
         }
     }
 }
