@@ -14,10 +14,26 @@ namespace EmailSenderDAO
 
         public List<Mail> GetMails()
         {
+            string sql = "SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail";
             List<Mail> mails = new List<Mail>();
 
-            mails = connectionContext.Query<Mail>("SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail").ToList();
+            mails = connectionContext.Query<Mail>(sql).ToList();
             return mails;
+        }
+
+        public int SaveEmail(Mail mail)
+        {
+            try
+            {
+                string sql = "INSERT INTO Mail(ToEmail,SendDate,Subject,Status,Body) VALUES(@ToEmail,@SendDate,@Subject,@Status,@Body)";
+                int result = connectionContext.Execute(sql, mail);
+                return result;
+            } catch(Exception ex)
+            {
+                return -1;
+            }
+            
+
         }
     }
 }
