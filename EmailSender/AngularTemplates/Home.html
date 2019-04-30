@@ -1,0 +1,32 @@
+﻿<h2><span class="glyphicon glyphicon-envelope"></span> Enviar Mail</h2>
+<br />
+<div class="row">
+    <div class="col-xs-6">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="txtEmail">Email:</label>
+                    <input type="text" id="txtEmail" class="form-control" style="max-width: none !important;" ng-model="Email" />
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="txtSubject">Asunto:</label>
+                    <input type="text" id="txtSubject" class="form-control" style="max-width: none !important;" ng-model="Subject"/>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label for="txtBody">Contenido:</label>
+                    <textarea type="text" id="txtBody" class="form-control" style="max-width: none !important;" ng-model="Body"></textarea>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row pull-right">
+            <button class="btn btn-primary" ng-click="sendEmail()">
+                <span class="glyphicon glyphicon-send"></span> Enviar
+            </button>
+        </div>
+    </div>
+</div>

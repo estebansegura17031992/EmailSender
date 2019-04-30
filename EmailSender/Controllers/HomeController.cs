@@ -1,7 +1,10 @@
-﻿using System;
+﻿using EmailSender.Helpers;
+using EmailSender.Models;
+using EmailSenderDAO;
+using EmailSenderDAO.Entities;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace EmailSender.Controllers
@@ -13,18 +16,77 @@ namespace EmailSender.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Historial()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
-
-        public ActionResult Contact()
+        public ActionResult GetMails()
         {
-            ViewBag.Message = "Your contact page.";
+            Repository repository = new Repository();
+            List<Mail> mails = new List<Mail>();
+            mails = repository.GetMails();
 
-            return View();
+            return Json(mails, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetMailsByFilter(string SearchString,string SearchBy)
+        {
+            Repository repository = new Repository();
+            List<Mail> mails = new List<Mail>();
+            mails = repository.GetMailsByFilter(SearchString, SearchBy);
+            if(mails!=null)
+                return Json(new ResponseHelperMails
+                {
+                    Result = true,
+                    Status = 200,
+                    Message = "Lista de correos",
+                    Mails = mails
+                }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new ResponseHelper
+                {
+                    Result = false,
+                    Status = 500,
+                    Message = "Error en la consulta"
+                },JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> SendEmail(EmailModel email)
+        {
+            try
+            {
+                //1. Envio de Correo con Sendgrid
+                EmailHelper emailHelper = new EmailHelper();
+                ResponseHelper response = await emailHelper.SendGeneralEmail(email.Email, email.Subject, email.Body);
+
+                if (response.Result)
+                {
+                    //2. Almacenar datos del correo
+                    Mail mail = new Mail();
+                    mail.ToEmail = email.Email;
+                    mail.Subject = email.Subject;
+                    mail.Body = email.Body;
+                    mail.SendDate = DateTime.Now;
+                    mail.Status = 1;
+
+                    Repository repository = new Repository();
+                    repository.SaveEmail(mail);
+                    return Json(response);
+                }
+                else
+                {
+                    return Json(response);
+                }
+            } catch(Exception ex)
+            {
+                return Json(new ResponseHelper
+                {
+                    Result = false,
+                    Status = 500,
+                    Message = ex.InnerException.Message
+                });
+            }
+            
         }
     }
 }

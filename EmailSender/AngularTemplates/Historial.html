@@ -1,0 +1,27 @@
+﻿
+<div class="row">
+    <div class="col-xs-6 pull-right" style="margin-top: 10px;">
+        <input type="text" id="txtSearch" class="form-control" placeholder="Buscar..." ng-model="filterHistoryMail" ng-change="filterHistory()"/>
+        <input type="radio" name="filterMail" value="email" ng-model="filterBy" ng-change="filterHistory()"><span style="margin: 0 4px">Correo</span>
+        <input type="radio" name="filterMail" value="subject" ng-model="filterBy" ng-change="filterHistory()"><span style="margin: 0 4px">Asunto</span>
+        <input type="radio" name="filterMail" value="date" ng-model="filterBy" ng-change="filterHistory()"><span style="margin: 0 4px">Fecha</span>
+    </div>
+
+    <h2><span class="glyphicon glyphicon-list"></span> Historial</h2>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Asunto</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="mail in mails">
+                <td scope="row">{{mail.ToEmail}}</td>
+                <td>{{mail.Subject}}</td>
+                <td>{{mail.SendDate.replace('/Date(', '').replace(')/','') | date:'medium' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
