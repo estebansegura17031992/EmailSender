@@ -19,6 +19,28 @@ namespace EmailSenderDAO
             return mails;
         }
 
+        public List<Mail> GetMailsByFilter(string pSearchString, string SearchBy)
+        {
+            try
+            {
+                string sql = "";
+                if (SearchBy == "email")
+                    sql = "SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail WHERE ToEmail = @SearchString";
+                else if (SearchBy == "subject")
+                    sql = "SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail WHERE Subject = @SearchString";
+                else
+                    sql = "SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail WHERE SendDate = @SearchString";
+                List<Mail> mails = new List<Mail>();
+
+                mails = connectionContext.Query<Mail>(sql, new { SearchString = pSearchString }).ToList();
+                return mails;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public int SaveEmail(Mail mail)
         {
             try

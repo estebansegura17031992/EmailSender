@@ -41,7 +41,31 @@
 				})
 
 				return result;
-			}
+            },
+
+            GetMailsByFilter: function (searchString, searchBy) {
+                var result = null;
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetMailsByFilter",
+                    data: { searchString:searchString,SearchBy: searchBy},
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.Result) {
+                            result = data.Mails;
+                        } else {
+                            alert(data.Message)
+                        }
+                        
+                    },
+                    error: function (errorData) {
+                        alert(errorData);
+                    }
+                })
+
+                return result;
+            }
 		}
 	}
 })();

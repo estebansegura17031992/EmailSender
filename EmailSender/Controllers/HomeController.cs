@@ -29,6 +29,28 @@ namespace EmailSender.Controllers
             return Json(mails, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetMailsByFilter(string SearchString,string SearchBy)
+        {
+            Repository repository = new Repository();
+            List<Mail> mails = new List<Mail>();
+            mails = repository.GetMailsByFilter(SearchString, SearchBy);
+            if(mails!=null)
+                return Json(new ResponseHelperMails
+                {
+                    Result = true,
+                    Status = 200,
+                    Message = "Lista de correos",
+                    Mails = mails
+                }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new ResponseHelper
+                {
+                    Result = false,
+                    Status = 500,
+                    Message = "Error en la consulta"
+                },JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> SendEmail(EmailModel email)
         {
             try
