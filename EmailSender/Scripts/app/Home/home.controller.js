@@ -10,7 +10,12 @@
 	            Body: $scope.Body
             }
             
-            MailService.SendMail(EmailModel);
+            var result = MailService.SendMail(EmailModel);
+            if (result.Result) {
+                $scope.Email = "";
+                $scope.Subject = "";
+                $scope.Body = "";
+            }
         }
 	}
 })();

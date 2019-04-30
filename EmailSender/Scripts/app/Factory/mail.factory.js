@@ -4,8 +4,6 @@
 	function mail() {
         return {
             SendMail: function (EmailModel) {
-                console.log(EmailModel)
-                var result = false;
                 $.ajax({
                     type: "POST",
                     url: "Home/SendEmail",
@@ -13,22 +11,24 @@
                     async: false,
                     dataType: "json",
                     success: function (data) {
-                        result = data;
+                        if (data.Result == true) {
+                            alert(data.Message)
+                            return data;
+                        }
+                        else 
+                            alert(result.Message)
                     },
                     error: function (errorData) {
                         console.log(errorData)
-                        alert(errorData);
+                        alert(errorData.Message);
                     }
                 })
-
-                return result;
             },
 			GetMails: function () {
 				var result = null;
 				$.ajax({
 					type: "GET",
 					url: "/Home/GetMails",
-					contentType: "application/json; charset=utf-8",
 					data: {},
 					async: false,
 					dataType: "json",

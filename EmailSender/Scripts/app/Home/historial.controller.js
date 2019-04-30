@@ -1,7 +1,7 @@
 ﻿(function () {
     angular.module("EmailSender").controller("HistorialController", HistorialController);
-    HistorialController.$inject = ["$scope", "mail"];
-    function HistorialController($scope, mail) {
-        console.log("Historial")
+    HistorialController.$inject = ["$scope", "MailService"];
+    function HistorialController($scope, MailService) {
+       $scope.mails = MailService.GetMails();
     }
 })();

@@ -1,10 +1,8 @@
 ﻿using EmailSenderDAO.Entities;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using Dapper;
 namespace EmailSenderDAO
 {
@@ -28,7 +26,7 @@ namespace EmailSenderDAO
                 string sql = "INSERT INTO Mail(ToEmail,SendDate,Subject,Status,Body) VALUES(@ToEmail,@SendDate,@Subject,@Status,@Body)";
                 int result = connectionContext.Execute(sql, mail);
                 return result;
-            } catch(Exception ex)
+            } catch
             {
                 return -1;
             }

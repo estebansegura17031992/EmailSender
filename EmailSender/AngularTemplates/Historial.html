@@ -14,10 +14,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td scope="row">esteban.1703@gmail.com</td>
-                <td>Correo de prueba</td>
-                <td>12-1-2019 12:30 pm</td>
+            <tr ng-repeat="mail in mails">
+                <td scope="row">{{mail.ToEmail}}</td>
+                <td>{{mail.Subject}}</td>
+                <td>{{mail.SendDate.replace('/Date(', '').replace(')/','') | date:'medium' }}</td>
             </tr>
         </tbody>
     </table>
