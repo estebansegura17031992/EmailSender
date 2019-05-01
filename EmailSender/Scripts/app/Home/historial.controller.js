@@ -3,7 +3,6 @@
     HistorialController.$inject = ["$scope", "MailService"];
     function HistorialController($scope, MailService) {
         $scope.mails = MailService.GetMails();
-
         $scope.filterHistory = function () {
             var searchString = $scope.filterHistoryMail;
             var searchBy = $scope.filterBy;

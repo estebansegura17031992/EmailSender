@@ -1,6 +1,5 @@
 ﻿using EmailSender.Helpers;
 using EmailSender.Models;
-using EmailSenderDAO;
 using EmailSenderDAO.Entities;
 using System;
 using System.Collections.Generic;
@@ -22,16 +21,27 @@ namespace EmailSender.Controllers
         }
         public ActionResult GetMails()
         {
-            Repository repository = new Repository();
-            List<Mail> mails = new List<Mail>();
-            mails = repository.GetMails();
+            try
+            {
+                RepositoryHelper repository = new RepositoryHelper();
+                ResponseHelperMails response = repository.GetMails();
 
-            return Json(mails, JsonRequestBehavior.AllowGet);
+                return Json(response, JsonRequestBehavior.AllowGet);
+            } catch(Exception ex)
+            {
+                ResponseHelper response = new ResponseHelper();
+                response.Result = false;
+                response.Status = 500;
+                response.Message = ex.InnerException.Message;
+
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         public ActionResult GetMailsByFilter(string SearchString,string SearchBy)
         {
-            Repository repository = new Repository();
+            RepositoryHelper repository = new RepositoryHelper();
             List<Mail> mails = new List<Mail>();
             mails = repository.GetMailsByFilter(SearchString, SearchBy);
             if(mails!=null)
@@ -69,7 +79,7 @@ namespace EmailSender.Controllers
                     mail.SendDate = DateTime.Now;
                     mail.Status = 1;
 
-                    Repository repository = new Repository();
+                    RepositoryHelper repository = new RepositoryHelper();
                     repository.SaveEmail(mail);
                     return Json(response);
                 }

@@ -171,6 +171,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\ResponseHelper.cs" />
     <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -234,6 +235,7 @@
     <Content Include="Scripts\angular-animate.min.js.map" />
     <Content Include="Scripts\app\Home\home.controller.js" />
     <Content Include="Scripts\app\Factory\mail.factory.js" />
+    <None Include="Properties\PublishProfiles\EmailSender20190430123652 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
