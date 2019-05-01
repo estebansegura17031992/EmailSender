@@ -4,19 +4,42 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
-namespace EmailSenderDAO
+using System;
+using EmailSender.Helpers;
+
+namespace EmailSender.Helpers
 {
-    public class Repository
+    public class RepositoryHelper
     {
         SqlConnection connectionContext = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionEmailSenderDB"].ConnectionString);
 
-        public List<Mail> GetMails()
+        public ResponseHelperMails GetMails()
         {
-            string sql = "SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail";
-            List<Mail> mails = new List<Mail>();
+            try
+            {
+                string sql = "SELECT Id, ToEmail, SendDate, Subject, Status, Body FROM Mail";
+                List<Mail> mails = new List<Mail>();
 
-            mails = connectionContext.Query<Mail>(sql).ToList();
-            return mails;
+                mails = connectionContext.Query<Mail>(sql).ToList();
+
+                ResponseHelperMails response = new ResponseHelperMails();
+                response.Status = 200;
+                response.Message = "GetMails";
+                response.Result = true;
+                response.Mails = mails;
+
+                return response;
+            }
+            catch(Exception ex)
+            {
+                ResponseHelperMails response = new ResponseHelperMails();
+                response.Status = 500;
+                response.Message = ex.Message;
+                response.Result = false; ;
+
+                return response;
+            }
+            
         }
 
         public List<Mail> GetMailsByFilter(string pSearchString, string SearchBy)

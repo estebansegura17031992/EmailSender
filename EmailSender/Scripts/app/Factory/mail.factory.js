@@ -32,15 +32,19 @@
 					data: {},
 					async: false,
 					dataType: "json",
-					success: function (data) {
-						result = data;
+                    success: function (data) {
+                        if (data.Result) {
+                            result = data.Mails;
+                        } else {
+                            alert(data.Message)
+                        }
 					},
-					error: function (errorData) {
-						alert(errorData);
+                    error: function (errorData) {
+                        alert(errorData.Message);
 					}
 				})
-
-				return result;
+                return result;
+				
             },
 
             GetMailsByFilter: function (searchString, searchBy) {
